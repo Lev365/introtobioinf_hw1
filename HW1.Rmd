@@ -1,0 +1,278 @@
+---
+title: "Homework 1 - answers"
+author: "Almog Angel"
+date: "01/12/2024"
+output: html_document
+---
+
+In the following tasks you will use statistics and sequence alignment to analyze real COVID-19 world data.
+
+- Load packages
+```{r}
+library(tidyverse)
+library(Biostrings)
+library(msa)
+library(msaR)
+library(seqinr)
+library(ape)
+```
+
+- Set your working directory
+```{r}
+# Enter your code here:
+
+```
+
+## Task 1 - Data cleaning
+
+- Read "COVID19_line_list_data.csv" into a variable called "covid_data"
+```{r}
+# Enter your code here:
+
+```
+
+- Take a look at the data
+```{r}
+View(covid_data)
+```
+
+- Find a way to remove empty columns:
+```{r}
+# Enter your code here:
+
+```
+
+- Find a way to deal with missing values (NAs) in  "age" and "gender" columns
+```{r}
+# Enter your code here:
+
+```
+
+- Assuming 'death' is a binary variable (0 for no, 1 for yes) that represent categorical data
+- Convert 'death' to a factor class that contains either "yes" or "no"
+```{r}
+# Enter your code here:
+
+```
+
+
+## Task 2 - Descriptive statistics analysis 
+
+- Print a descriptive summary of "age"
+```{r}
+# Enter your code here:
+
+```
+
+- Distribution:
+- (1) Generate histogram for "age" distribution and color the bars by "death"
+* Use: position = 'identity', bins = 50, alpha = 0.5
+```{r}
+# Enter your code here:
+
+```
+
+- (2) Generate bar plot that visualize the number of dead and alive per gender
+```{r}
+# Enter your code here:
+
+```
+
+
+## Task 3 - Statistical Testing
+
+
+- Run Chi-squared test to investigate the association between gender and death
+```{r}
+# Enter your code here:
+
+```
+
+- Why do we use Chi-squared and not t-test?
+```{}
+Type your answer here:
+
+```
+
+- Define the Null Hypothesis of the Chi-squared Test in this example
+```{}
+Type your answer here:
+
+```
+
+- What is the p-value? Is it significant (alpha = 0.05)? Write your conclusions from the statistical test results.
+```{}
+Type your answer here:
+
+```
+
+
+According to the media, older people are more likely to die from COVID-19.
+- Test this claim statistically
+- Frame your null and alternative hypothesis here:
+```{}
+My null hypothesis:
+
+My alternative hypothesis:
+
+```
+
+- Check if the assumption of normality is valid for your data (use alpha of 0.05)
+```{r}
+# Enter your code here:
+
+```
+
+- Run a statistical test:
+- If you assume normality -> use t-test 
+- else -> use Wilcoxon rank-sum test 
+```{r}
+# Enter your code here:
+
+```
+
+- Report the p-value. Is it significant? Write your conclusions from the statistical test results.
+```{}
+Type your answer here:
+
+```
+
+- Read "owid-covid-data.csv" from "https://covid.ourworldindata.org/data/owid-covid-data.csv" into a variable called "covid_world"
+```{r}
+# Enter your code here:
+
+```
+
+- Take a look at the data
+```{r}
+View(covid_world)
+```
+
+
+Your friend suggest that countries with high Human Development Index (HDI) have a greater risk to die from COVID-19
+
+- Make a second table and call it "covid_hdi_vs_deaths":
+  (1) Select rows with "date" equal to "2024-01-21"
+  (2) Select the following columns: "location", "human_development_index", "population", "total_deaths"
+  (3) Remove rows with NAs
+  (4) Calculate the total deaths per million people to a column named "total_deaths_per_million" (round the number)
+```{r}
+# Enter your code here:
+
+```
+
+- Use a scatterplot to visualize the relations between HDI and the total deaths per million
+```{r}
+# Enter your code here:
+
+```
+
+- Calculate the Pearson and Spearman correlation between HDI and the total deaths per million
+```{r}
+# Enter your code here:
+
+```
+
+- Report the Spearman correlation coefficient, the strength of the correlation (weak/moderate/strong/very strong) and the direction (negative/positive)
+```{}
+Type your answer here:
+
+```
+
+- Do you agree with the claim that increased in HDI causes high COVID-19 mortality? (write in detail)
+```{}
+Type your answer here:
+
+```
+
+- Find another feature in "covid_world" that explain the correlation between HDI and COVID-19 mortality
+* Hint: you already have the answer in the first part of the task
+```{r}
+# Enter your code here:
+
+```
+
+```{}
+Write your explanation here: 
+
+```
+
+
+## Task 4 - Sequence Alignment
+
+- Take a look at the "Biostrings" package vignettes
+```{r}
+browseVignettes("Biostrings")
+```
+
+- Read the file "covid_spike_variants.fasta"
+This file contain the amino acids sequence of the COVID-19 spike protein from different variants
+
+- Read the file using the correct function from the package "Biostrings" and assign to a variable called "variants"
+```{r}
+# Enter your code here:
+
+```
+
+- How many amino acids are in the Alpha variant?
+```{}
+Type your answer here:
+
+```
+
+- Read the documentation for the Multiple Sequence Alignment (msa) function from the package "msa"
+```{r}
+?msa()
+```
+
+- Run MSA for the sequences in "variants" and assign the results to "variants.msa"
+```{r}
+# Enter your code here:
+
+```
+
+- Take a look at the results using the package "msaR" (notice: you can scroll right and left to see all the sequence)
+```{r}
+msaR(DNAMultipleAlignment(all.spikes.msa), colorscheme = "taylor")
+```
+
+- (1) Which amino-acids appear in position #13? (type "AMINO_ACID_CODE" in the console)
+- (2) Write an example of a SNP that can cause the change in amino acid as we see in the Epsilon variant
+```{}
+Type your answer here:
+
+```
+
+Phylogenetic tree for the COVID19 variants:
+- Use the package "seqinr" to generate a distance matrix from the MSA results and save it in a variable called "distMat"
+```{r}
+# Enter your code here:
+
+```
+
+- Use the package "ape" to apply "neighbor-joining" (nj) clustering algorithm to construct a phylogenetic tree
+- Save the results in a variable called "ptree"
+```{r}
+# Enter your code here:
+
+```
+
+- Look at the phylogenetic tree and answer the following questions:
+```{r}
+ape::plot.phylo(ptree)
+```
+
+- (1) Which variant is the closest to Gamma?
+- (2) Which pair seems to emerged from the Alpha variant?
+      (a) Epsilon and Delta
+      (b) Beta and Gamma
+      (c) Epsilon and Delta
+      
+```{}
+Type your answer here:
+
+```
+
+- Save this R Markdown as HTML before submitting
+(1) Go to "Knit" > "Knit to HTML"
+(2) Change the file name to your IDs (i.e, "123456789_123456789.html")
