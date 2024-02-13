@@ -10,7 +10,16 @@ In the following tasks you will use statistics and sequence alignment to analyze
 - Load packages
 ```{r}
 library(tidyverse)
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("Biostrings")
+
 library(Biostrings)
+
+BiocManager::install("msa")
+
 library(msa)
 library(msaR)
 library(seqinr)
@@ -20,7 +29,8 @@ library(ape)
 - Set your working directory
 ```{r}
 # Enter your code here:
-
+path <- getwd()
+setwd(path)
 ```
 
 ## Task 1 - Data cleaning
@@ -28,7 +38,7 @@ library(ape)
 - Read "COVID19_line_list_data.csv" into a variable called "covid_data"
 ```{r}
 # Enter your code here:
-
+covid_data <- read.csv("COVID19_line_list_data.csv")
 ```
 
 - Take a look at the data
@@ -39,6 +49,8 @@ View(covid_data)
 - Find a way to remove empty columns:
 ```{r}
 # Enter your code here:
+covid_data %>% 
+          discard(~all(is.na(.) | . =="")) -> covid_data
 
 ```
 
