@@ -57,14 +57,17 @@ covid_data %>%
 - Find a way to deal with missing values (NAs) in  "age" and "gender" columns
 ```{r}
 # Enter your code here:
-
+covid_data %>% 
+           drop_na(.,c(age,gender)) -> covid_data
+                    
 ```
 
 - Assuming 'death' is a binary variable (0 for no, 1 for yes) that represent categorical data
 - Convert 'death' to a factor class that contains either "yes" or "no"
 ```{r}
 # Enter your code here:
-
+covid_data$death  %>%
+                  factor(., levels = c(0,1), labels = c("no", "yes")) -> covid_data$death
 ```
 
 
@@ -73,7 +76,7 @@ covid_data %>%
 - Print a descriptive summary of "age"
 ```{r}
 # Enter your code here:
-
+summary(covid_data$age)
 ```
 
 - Distribution:
@@ -81,13 +84,18 @@ covid_data %>%
 * Use: position = 'identity', bins = 50, alpha = 0.5
 ```{r}
 # Enter your code here:
+covid_data %>% 
+          ggplot(., aes(x=age, color=death)) +
+          geom_histogram(position = 'identity', bins = 50, alpha = 0.5)
 
 ```
 
 - (2) Generate bar plot that visualize the number of dead and alive per gender
 ```{r}
 # Enter your code here:
-
+covid_data %>% 
+          ggplot(., aes(x=gender, fill=death)) + 
+          geom_bar()
 ```
 
 
@@ -97,25 +105,26 @@ covid_data %>%
 - Run Chi-squared test to investigate the association between gender and death
 ```{r}
 # Enter your code here:
-
+chisq.test(x=covid_data$gender, y=covid_data$death)
 ```
 
 - Why do we use Chi-squared and not t-test?
 ```{}
 Type your answer here:
-
+the two variables are categorical rather than numerical
 ```
 
 - Define the Null Hypothesis of the Chi-squared Test in this example
 ```{}
 Type your answer here:
-
+H_0: gender has no effect on death rate due to covid.
 ```
 
 - What is the p-value? Is it significant (alpha = 0.05)? Write your conclusions from the statistical test results.
 ```{}
 Type your answer here:
-
+p-value is the probability to get data at least as extreme as the data we got, given H_0 is true.
+the p-value is 0.077, higher than alpha = 0.05, thus we accept H_0
 ```
 
 
@@ -124,15 +133,15 @@ According to the media, older people are more likely to die from COVID-19.
 - Frame your null and alternative hypothesis here:
 ```{}
 My null hypothesis:
-
+H_0: age has a positive correlation with death rate due to covid.
 My alternative hypothesis:
-
+age has no effect on death rate due to covid.
 ```
 
 - Check if the assumption of normality is valid for your data (use alpha of 0.05)
 ```{r}
 # Enter your code here:
-
+shapiro.test()
 ```
 
 - Run a statistical test:
