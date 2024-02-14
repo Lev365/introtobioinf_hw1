@@ -67,7 +67,9 @@ covid_data %>%
 ```{r}
 # Enter your code here:
 covid_data$death  %>%
-                  factor(., levels = c(0,1), labels = c("no", "yes")) -> covid_data$death
+                  factor(., levels = c(0,1), labels = c("no", "yes"))-> covid_data$death
+
+covid_data$death[is.na(covid_data$death)] <- "yes"
 ```
 
 
@@ -96,6 +98,9 @@ covid_data %>%
 covid_data %>% 
           ggplot(., aes(x=gender, fill=death)) + 
           geom_bar()
+
+tasd=table(covid_data$gender, covid_data$death)
+prop.table(tasd, margin = 1)
 ```
 
 
@@ -111,20 +116,21 @@ chisq.test(x=covid_data$gender, y=covid_data$death)
 - Why do we use Chi-squared and not t-test?
 ```{}
 Type your answer here:
-the two variables are categorical rather than numerical
+the two variables are categorical rather than numerical.
 ```
 
 - Define the Null Hypothesis of the Chi-squared Test in this example
 ```{}
 Type your answer here:
-H_0: gender has no effect on death rate due to covid.
+H_0: gender has no effect on mortality due to covid.
 ```
 
 - What is the p-value? Is it significant (alpha = 0.05)? Write your conclusions from the statistical test results.
 ```{}
 Type your answer here:
-p-value is the probability to get data at least as extreme as the data we got, given H_0 is true.
-the p-value is 0.077, higher than alpha = 0.05, thus we accept H_0
+p-value is the probability to get correlation at least as big as we got, given H_0 is true.
+the p-value is 0.0057, smaller than alpha = 0.05, thus we reject H_0.
+in other words - there is a statistical basis to assume gender has an effect on morality.
 ```
 
 
@@ -133,15 +139,15 @@ According to the media, older people are more likely to die from COVID-19.
 - Frame your null and alternative hypothesis here:
 ```{}
 My null hypothesis:
-H_0: age has a positive correlation with death rate due to covid.
+H_0: age has no correlation with mortality due to covid.
 My alternative hypothesis:
-age has no effect on death rate due to covid.
+age has a correlation on mortality due to covid.
 ```
 
 - Check if the assumption of normality is valid for your data (use alpha of 0.05)
 ```{r}
 # Enter your code here:
-shapiro.test()
+shapiro.test(covid_data$age)
 ```
 
 - Run a statistical test:
@@ -149,18 +155,21 @@ shapiro.test()
 - else -> use Wilcoxon rank-sum test 
 ```{r}
 # Enter your code here:
-
+wilcox.test(covid_data$age[covid_data$death == "no"], covid_data$age[covid_data$death == "yes"])
 ```
 
 - Report the p-value. Is it significant? Write your conclusions from the statistical test results.
 ```{}
 Type your answer here:
-
+p-value = 2.6e-16, it is very small and hence very significant.
+we can safely reject H_0 and claim that the alternative hypothesis holds:
+age has a correlation on mortality due to covid.
 ```
 
 - Read "owid-covid-data.csv" from "https://covid.ourworldindata.org/data/owid-covid-data.csv" into a variable called "covid_world"
 ```{r}
 # Enter your code here:
+covid_world <- read.csv('https://covid.ourworldindata.org/data/owid-covid-data.csv')
 
 ```
 
