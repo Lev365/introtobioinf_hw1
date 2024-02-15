@@ -169,7 +169,7 @@ age has a correlation with mortality due to covid.
 - Read "owid-covid-data.csv" from "https://covid.ourworldindata.org/data/owid-covid-data.csv" into a variable called "covid_world"
 ```{r}
 # Enter your code here:
-covid_world <- read.csv('https://covid.ourworldindata.org/data/owid-covid-data.csv')
+covid_world <- read.csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
 
 ```
 
@@ -297,21 +297,24 @@ msaR(AAMultipleAlignment(variants.msa), colorscheme = "taylor")
 - (2) Write an example of a SNP that can cause the change in amino acid as we see in the Epsilon variant
 ```{}
 Type your answer here:
-
+(1) Serine, except for Epsilon variant, in which it's Isoleucine.
+(2) G to U
+    ref: [Ile: AUU, AUC, AUA , Ser: UCU, UCC, UCA, UCG; AGU, AGC]
 ```
 
 Phylogenetic tree for the COVID19 variants:
 - Use the package "seqinr" to generate a distance matrix from the MSA results and save it in a variable called "distMat"
 ```{r}
 # Enter your code here:
-
+distMat <- dist.alignment(msaConvert(variants.msa, type="seqinr::alignment"), "identity")
+distMat
 ```
 
 - Use the package "ape" to apply "neighbor-joining" (nj) clustering algorithm to construct a phylogenetic tree
 - Save the results in a variable called "ptree"
 ```{r}
 # Enter your code here:
-
+ptree <- nj(distMat)
 ```
 
 - Look at the phylogenetic tree and answer the following questions:
@@ -327,7 +330,8 @@ ape::plot.phylo(ptree)
       
 ```{}
 Type your answer here:
-
+(1) 19A
+(2) Beta and Gamma
 ```
 
 - Save this R Markdown as HTML before submitting
