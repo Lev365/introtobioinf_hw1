@@ -163,7 +163,7 @@ wilcox.test(covid_data$age[covid_data$death == "no"], covid_data$age[covid_data$
 Type your answer here:
 p-value = 2.6e-16, it is very small and hence very significant.
 we can safely reject H_0 and claim that the alternative hypothesis holds:
-age has a correlation on mortality due to covid.
+age has a correlation with mortality due to covid.
 ```
 
 - Read "owid-covid-data.csv" from "https://covid.ourworldindata.org/data/owid-covid-data.csv" into a variable called "covid_world"
@@ -188,43 +188,69 @@ Your friend suggest that countries with high Human Development Index (HDI) have 
   (4) Calculate the total deaths per million people to a column named "total_deaths_per_million" (round the number)
 ```{r}
 # Enter your code here:
+ covid_world %>% 
+            subset(., date == "2024-01-21") %>%
+            select(.,location, human_development_index, population, total_deaths) %>%
+            drop_na(.,) -> covid_hdi_vs_deaths
 
+covid_hdi_vs_deaths$total_deaths_per_million <- round(1e6*covid_hdi_vs_deaths$total_deaths/covid_hdi_vs_deaths$population)
 ```
 
 - Use a scatterplot to visualize the relations between HDI and the total deaths per million
 ```{r}
 # Enter your code here:
-
+plot(covid_hdi_vs_deaths$human_development_index, covid_hdi_vs_deaths$total_deaths_per_million)
 ```
 
 - Calculate the Pearson and Spearman correlation between HDI and the total deaths per million
 ```{r}
 # Enter your code here:
+cor.test(covid_hdi_vs_deaths$human_development_index, covid_hdi_vs_deaths$total_deaths_per_million, method = "pearson")
+cor.test(covid_hdi_vs_deaths$human_development_index, covid_hdi_vs_deaths$total_deaths_per_million, method = "spearman")
 
 ```
 
 - Report the Spearman correlation coefficient, the strength of the correlation (weak/moderate/strong/very strong) and the direction (negative/positive)
 ```{}
 Type your answer here:
-
+the Spearman correlation coefficient is 0.6, it is a strong positive correlation.
 ```
 
 - Do you agree with the claim that increased in HDI causes high COVID-19 mortality? (write in detail)
 ```{}
 Type your answer here:
-
+statistically speaking, citizens of higher HDI countries are more likely to die from COVID-19.
+but, statsits can only describe correlation and not causation,
+we cannot infer a causative relation between higher HDI and COVID mortality.
+domain knowladge can be used to match the statsics with a causative mechanism, which might involve additional variables.
 ```
 
 - Find another feature in "covid_world" that explain the correlation between HDI and COVID-19 mortality
 * Hint: you already have the answer in the first part of the task
 ```{r}
 # Enter your code here:
+ covid_world %>% 
+            subset(., date == "2024-01-21") %>%
+            select(.,location, human_development_index, population, total_deaths, median_age) %>%
+            drop_na(.,) -> covid_hdi_vs_deaths
 
+covid_hdi_vs_deaths$total_deaths_per_million <- round(1e6*covid_hdi_vs_deaths$total_deaths/covid_hdi_vs_deaths$population)
+
+plot(covid_hdi_vs_deaths$human_development_index, covid_hdi_vs_deaths$median_age)
+plot(covid_hdi_vs_deaths$median_age, covid_hdi_vs_deaths$total_deaths_per_million)
+plot(covid_hdi_vs_deaths$human_development_index, covid_hdi_vs_deaths$total_deaths_per_million)
+
+cor.test(covid_hdi_vs_deaths$human_development_index, covid_hdi_vs_deaths$median_age, method = "pearson")
+cor.test(covid_hdi_vs_deaths$median_age, covid_hdi_vs_deaths$total_deaths_per_million, method = "pearson")
 ```
 
 ```{}
 Write your explanation here: 
-
+we know that COVID-19 is more dangerous to older people.
+we can see that HDI is very strongly correlated with median age, and that
+median age is strongly correlated with mortality.
+thus we can claim that the older population in higher HDI countries is more 
+vulnurable to COVID.
 ```
 
 
