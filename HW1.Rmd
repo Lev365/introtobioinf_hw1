@@ -130,7 +130,7 @@ H_0: gender has no effect on mortality due to covid.
 Type your answer here:
 p-value is the probability to get correlation at least as big as we got, given H_0 is true.
 the p-value is 0.0057, smaller than alpha = 0.05, thus we reject H_0.
-in other words - there is a statistical basis to assume gender has an effect on morality.
+in other words - there is a statistical basis to suspect gender has an effect on morality.
 ```
 
 
@@ -267,13 +267,14 @@ This file contain the amino acids sequence of the COVID-19 spike protein from di
 - Read the file using the correct function from the package "Biostrings" and assign to a variable called "variants"
 ```{r}
 # Enter your code here:
-
+variants <- readAAStringSet("covid_spike_variants.fasta")
+variants
 ```
 
 - How many amino acids are in the Alpha variant?
 ```{}
 Type your answer here:
-
+1270
 ```
 
 - Read the documentation for the Multiple Sequence Alignment (msa) function from the package "msa"
@@ -284,12 +285,12 @@ Type your answer here:
 - Run MSA for the sequences in "variants" and assign the results to "variants.msa"
 ```{r}
 # Enter your code here:
-
+variants.msa <- msa(variants, type = "protein")
 ```
 
 - Take a look at the results using the package "msaR" (notice: you can scroll right and left to see all the sequence)
 ```{r}
-msaR(DNAMultipleAlignment(all.spikes.msa), colorscheme = "taylor")
+msaR(AAMultipleAlignment(variants.msa), colorscheme = "taylor")
 ```
 
 - (1) Which amino-acids appear in position #13? (type "AMINO_ACID_CODE" in the console)
